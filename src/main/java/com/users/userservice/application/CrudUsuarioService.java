@@ -1,7 +1,8 @@
 package com.users.userservice.application;
 
 import com.users.userservice.domain.Usuario;
-import com.users.userservice.infrastructure.UsuarioRepository;
+import com.users.userservice.repository.UsuarioRepository;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;

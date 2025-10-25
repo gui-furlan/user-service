@@ -1,4 +1,4 @@
-package com.users.userservice.infrastructure;
+package com.users.userservice.client;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;

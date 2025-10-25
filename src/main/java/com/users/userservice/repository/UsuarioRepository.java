@@ -1,4 +1,4 @@
-package com.users.userservice.infrastructure;
+package com.users.userservice.repository;
 
 import com.users.userservice.domain.Usuario;
 import java.util.UUID;

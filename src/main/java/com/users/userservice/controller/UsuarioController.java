@@ -1,4 +1,4 @@
-package com.users.userservice.adapters;
+package com.users.userservice.controller;
 
 import com.users.userservice.application.CrudUsuarioService;
 import com.users.userservice.domain.Usuario;
