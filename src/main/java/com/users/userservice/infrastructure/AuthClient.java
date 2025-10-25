@@ -9,10 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Cliente HTTP para o serviço de autenticação.
- * Realiza POST em "/auth/register" enviando JSON com { "username", "password" }.
- */
 @Component
 public class AuthClient {
 
@@ -25,12 +21,6 @@ public class AuthClient {
         this.baseUrl = baseUrl;
     }
 
-    /**
-     * Faz o registro de credenciais no serviço de autenticação.
-     * @param username nome de usuário (ex: email)
-     * @param password senha
-     * @return ResponseEntity da chamada (corpo vazio por padrão)
-     */
     public ResponseEntity<Void> register(String username, String password) {
         String url = baseUrl + "/auth/register";
 
@@ -43,9 +33,6 @@ public class AuthClient {
         return restTemplate.postForEntity(url, entity, Void.class);
     }
 
-    /**
-     * DTO do corpo de requisição do registro.
-     */
     private record RegisterRequest(String username, String password) { }
 }
 
