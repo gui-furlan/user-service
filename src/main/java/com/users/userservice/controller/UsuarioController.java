@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,10 +31,11 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(criado));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable UUID id) {
+    @GetMapping("/busca")
+    public ResponseEntity<UsuarioResponse> buscarPorId(@RequestHeader(value = "X-User-Id", required = false) UUID userId)
+    {
         return crudUsuarioUseCase
-                .buscarPorId(id)
+                .buscarPorId(userId)
                 .map(u -> ResponseEntity.ok(toResponse(u)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
