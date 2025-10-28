@@ -1,5 +1,3 @@
 com\users\userservice\UserserviceApplication.class
-com\users\userservice\infrastructure\UsuarioRepository.class
 com\users\userservice\domain\Usuario.class
-com\users\userservice\adapters\UsuarioController.class
 com\users\userservice\application\CrudUsuarioService.class

@@ -2,6 +2,9 @@ package com.users.userservice.controller;
 
 import com.users.userservice.application.CrudUsuarioService;
 import com.users.userservice.domain.Usuario;
+import com.users.userservice.dto.UsuarioRequest;
+import com.users.userservice.dto.UsuarioResponse;
+import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -23,16 +25,49 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> criar(@RequestBody Usuario usuario) {
-        Usuario criado = crudUsuarioUseCase.criar(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(criado);
+    public ResponseEntity<UsuarioResponse> criar(@RequestBody UsuarioRequest usuario) {
+        Usuario criado = crudUsuarioUseCase.criar(toEntity(usuario));
+        return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(criado));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarPorId(@PathVariable UUID id) {
+    public ResponseEntity<UsuarioResponse> buscarPorId(@PathVariable UUID id) {
         return crudUsuarioUseCase
                 .buscarPorId(id)
-                .map(ResponseEntity::ok)
+                .map(u -> ResponseEntity.ok(toResponse(u)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    private Usuario toEntity(UsuarioRequest request) {
+        if (request.tipo() != null) {
+            return new Usuario(
+                    request.nome(),
+                    request.email(),
+                    request.endereco(),
+                    request.telefone(),
+                    request.senha(),
+                    request.tipo()
+            );
+        }
+        // default type handled by entity constructor (CLIENTE)
+        return new Usuario(
+                request.nome(),
+                request.email(),
+                request.endereco(),
+                request.telefone(),
+                request.senha()
+        );
+    }
+
+    private UsuarioResponse toResponse(Usuario usuario) {
+        //TipoUsuario tipo = usuario.getTipo();
+        return new UsuarioResponse(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getEndereco(),
+                usuario.getTelefone(),
+                usuario.getTipo()
+        );
     }
 }
